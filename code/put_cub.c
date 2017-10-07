@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/27 03:53:48 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/02 05:12:17 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/09/28 19:00:35 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	draw_line(int x, int start, int end, t_tri *lst)
 		start++;
 	}
 }
-
+	
 void	put_in_black(t_tri *lst)
 {
 	long int	i;

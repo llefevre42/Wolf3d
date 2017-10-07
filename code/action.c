@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 14:03:41 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/07 15:49:47 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/09/29 14:05:24 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	action(t_tri *lst)
 			{
 				if(lst->tab[i][j] == 0.2)
 				{
-					lst->start_x = i;
-					lst->start_y = j;
+					lst->start_x = i + 0.5;
+					lst->start_y = j + 0.5;
 					break;
 				}
 				j++;
@@ -63,8 +63,8 @@ void	action(t_tri *lst)
 			{
 				if(lst->tab[i][j] == 0.4)
 				{
-					lst->start_x = i;
-					lst->start_y = j;
+					lst->start_x = i + 0.5;
+					lst->start_y = j + 0.5;
 					break;
 				}
 				j++;
@@ -99,8 +99,8 @@ void	action(t_tri *lst)
 			{
 				if(lst->tab[i][j] == 0.6)
 				{
-					lst->start_x = i;
-					lst->start_y = j;
+					lst->start_x = i + 0.5;
+					lst->start_y = j + 0.5;
 					break;
 				}
 				j++;
@@ -135,8 +135,8 @@ void	action(t_tri *lst)
 			{
 				if(lst->tab[i][j] == 0.2)
 				{
-					lst->start_x = i;
-					lst->start_y = j;
+					lst->start_x = i + 0.5;
+					lst->start_y = j + 0.5;
 					break;
 				}
 				j++;

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/27 03:44:42 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/29 14:05:38 by llefevre         ###   ########.fr       */
+/*   Created: 2017/05/12 16:12:22 by llefevre          #+#    #+#             */
+/*   Updated: 2017/10/06 23:57:48 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUFF_SIZE 5000000
+# include "libft.h"
+# include <unistd.h>
+# include <stdlib.h>
 
-void	what_a_cub(t_tri *lst)
+struct	s_gnl
 {
-	if(lst->egal == 2)
-		lst->color = 0XFF0000;
-	else if(lst->egal == 1)
-		lst->color = 0XFFFFFF;
-	else if(lst->egal == 11)
-		lst->color = 0X0000FF;
-	else if(lst->egal == 5)
-	{
-		lst->color = 0XFF00FF;
-	}
-	else
-		lst->color = 0X000000;
-//	put_cub(lst);
-}	
+	char			*str;
+	int				itm;
+	int				fd;
+	int				read;
+	struct s_gnl	*next;
+};
+typedef struct s_gnl	t_gnl;
+
+#endif

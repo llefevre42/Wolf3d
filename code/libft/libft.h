@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 15:26:05 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/07 22:23:30 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/09/25 18:09:57 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char	*ft_strcapitalize(char *str);
 char	*ft_strrev(char *str);
 void	ft_swap(int *a, int *b);
 char	*ft_malloncat(char *in, char *buf, size_t n);
+//char	*ft_mallonint(int *in, int *buf, size_t n);
 
 struct	s_itoa
 {

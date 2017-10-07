@@ -6,20 +6,14 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/28 05:58:50 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/06 18:08:37 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/10/04 18:26:36 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-int		p_verif(t_tri *lst)
-{
-}
-
-
 void	p_player(int key, t_tri *lst)
 {
-	printf("%d %d\n", lst->ray, key);
 	if ((lst->ray == 23 || lst->ray == 0 || lst->ray == 1) && key == 126)
 		if(lst->tab[(int)(lst->start_x - SPEED)][(int)(lst->start_y)] != 1)
 			lst->start_x -= SPEED;

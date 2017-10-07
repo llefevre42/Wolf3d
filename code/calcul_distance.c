@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/28 02:56:04 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/09 16:40:29 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/10/04 18:44:51 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,125 +14,130 @@
 
 void	hauteur_mur(t_tri *lst)
 {
-	double	start_x;
-	double	start_y;
-	double	dir_x;
-	double	dir_y;
-	double	plan_x;
-	double	plan_y;
-	double	time;
-	double	p_time;
-	double	screen_x;
-	double	screen_y;
-	int x;
-	double	cam_x;
-	double	ray_x;
-	double	ray_y;
-	double	rd_x;
-	double	rd_y;
-	int map_x;
-	int	map_y;
-	double	sd_x;
-	double	sd_y;
-	double	delta_d_x;
-	double	delta_d_y;
-	double	wall_distance;
-	int step_x;
-	int step_y;
-	int hit;
-	int side;
-	int	line_h;
-	int	draw_s;
-	int draw_e;
-	double rota;
-
-	start_x = lst->start_x;
-	start_y = lst->start_y;
-	dir_x = lst->dir_x;
-	dir_y = lst->dir_y;
-	plan_x = lst->angle_p;
-	plan_y = lst->angle_s;
-	time = 0;
-	p_time = 0;
-	screen_x = 1200;
-	screen_y = 800;
-	x = 0;
-
-	while(x < screen_x)
+	t_prit t;
+	t.start_x = lst->start_x;
+	t.start_y = lst->start_y;
+	t.dir_x = lst->dir_x;
+	t.dir_y = lst->dir_y;
+	t.plan_x = lst->angle_p;
+	t.plan_y = lst->angle_s;
+	t.time = 0;
+	t.p_time = 0;
+	t.screen_x = 1200;
+	t.screen_y = 800;
+	t.x = 0;
+	lst->lon = 1;
+	while(t.x < t.screen_x)
 	{
-		cam_x = 2 * x / (double)(screen_x) - 1;
-		ray_x = start_x;
-		ray_y = start_y;
-		rd_x = dir_x + plan_x * cam_x;
-		rd_y = dir_y + plan_y * cam_x;
-		map_x = (int)(ray_x);
-		map_y = (int)(ray_y);
-		delta_d_x = sqrt(1 + (rd_y * rd_y) / (rd_x * rd_x));		//custom delete!!!
-		delta_d_y = sqrt(1 + (rd_x * rd_x) / (rd_y * rd_y));
-		hit = 0;
-		if (rd_x < 0)
+		t.y = 0;
+		t.cam_x = 2 * t.x / (double)(t.screen_x) - 1;
+		t.ray_x = t.start_x;
+		t.ray_y = t.start_y;
+		t.rd_x = t.dir_x + t.plan_x * t.cam_x;
+		t.rd_y = t.dir_y + t.plan_y * t.cam_x;
+		t.map_x = (int)(t.ray_x);
+		t.map_y = (int)(t.ray_y);
+		t.delta_d_x = sqrt(1 + (t.rd_y * t.rd_y) / (t.rd_x * t.rd_x));		//custom delete!!!
+		t.delta_d_y = sqrt(1 + (t.rd_x * t.rd_x) / (t.rd_y * t.rd_y));
+		t.hit = 0;
+		t.text_x = 0;
+		t.text_y = 0;
+		t.d = 0;
+		t.wall_hit = 0;
+
+		if (t.rd_x < 0)
 		{
-			step_x = -1;
-			sd_x = (ray_x - map_x) * delta_d_x;
+			t.step_x = -1;
+			t.sd_x = (t.ray_x - t.map_x) * t.delta_d_x;
 		}
 		else
 		{
-			step_x = 1;
-			sd_x = (map_x + 1.0 - ray_x) * delta_d_x;
+			t.step_x = 1;
+			t.sd_x = (t.map_x + 1.0 - t.ray_x) * t.delta_d_x;
 		}
-		if (rd_y < 0)
+		if (t.rd_y < 0)
 		{
-			step_y = -1;
-			sd_y = (ray_y - map_y) * delta_d_y;
+			t.step_y = -1;
+			t.sd_y = (t.ray_y - t.map_y) * t.delta_d_y;
 		}
 		else
 		{
-			step_y = 1;
-			sd_y = (map_y + 1.0 - ray_y) * delta_d_y;
+			t.step_y = 1;
+			t.sd_y = (t.map_y + 1.0 - t.ray_y) * t.delta_d_y;
 		}
-		while (hit == 0)
+		while (t.hit == 0)
 		{
-			if (sd_x < sd_y)
+			if (t.sd_x < t.sd_y)
 			{
-				sd_x += delta_d_x;
-				map_x += step_x;
-				side = 0;
+				t.sd_x += t.delta_d_x;
+				t.map_x += t.step_x;
+				t.side = 0;
 			}
 			else
 			{
-				sd_y += delta_d_y;
-				map_y += step_y;
-				side = 1;
+				t.sd_y += t.delta_d_y;
+				t.map_y += t.step_y;
+				t.side = 1;
 			}
-			if (lst->tab[map_x][map_y] > 0)
-				hit = 1;
+			if (lst->tab[t.map_x][t.map_y] > 0)
+				t.hit = 1;
 		}
-		if (side == 0)
-			wall_distance = (map_x - ray_x + (1 - step_x) / 2) /rd_x;
+		if (t.side == 0)
+			t.wall_distance = (t.map_x - t.ray_x + (1 - t.step_x) / 2) /t.rd_x;
 		else
-			wall_distance = (map_y - ray_y + (1 - step_y) / 2) /rd_y;
-		line_h = (int)(screen_y / wall_distance);
-		draw_s = ((-line_h) / 2) + (screen_y / 2);
-		if (draw_s < 0)
-			draw_s = 0;
-		draw_e = (line_h / 2) + (screen_y / 2);
-		if (draw_e >= screen_y)
-			draw_e = screen_y - 1;
-		if(side == 0)
-		{
-			if (0 > map_x - start_x)
-				lst->color = 0X167C0B;
-			else
-				lst->color = 0X530B61;
-		}
+			t.wall_distance = (t.map_y - t.ray_y + (1 - t.step_y) / 2) /t.rd_y;
+		t.line_h = (int)(t.screen_y / t.wall_distance);
+		t.draw_s = ((-t.line_h) / 2) + (t.screen_y / 2);
+		if (t.draw_s < 0)
+			t.draw_s = 0;
+		t.draw_e = (t.line_h / 2) + (t.screen_y / 2);
+		if (t.draw_e >= t.screen_y)
+			t.draw_e = t.screen_y - 1;
+		if (t.side == 0)
+			t.wall_hit = t.ray_y + t.wall_distance * t.rd_y;
 		else
-		{
-			if (0 > map_y - start_y)
-				lst->color = 0X6C2626; 
-			else
-				lst->color = 0X294064;
-		}
-		draw_line(x, draw_s, draw_e, lst);
-		x++;
+			t.wall_hit = t.ray_x + t.wall_distance * t.rd_x;
+		t.wall_hit -= floor((t.wall_hit));						//?
+		if(lst->tab[t.map_x][t.map_y] < 0.3 && lst->tab[t.map_x][t.map_y] > 0)
+			put_text(lst, &t, /*64, 64, (long *)lst->tp);*/lst->larg_g, lst->haut_g, lst->golgari);
+		else if(lst->tab[t.map_x][t.map_y] < 1 && lst->tab[t.map_x][t.map_y] > 0.2)
+			put_text(lst, &t, lst->larg_l, lst->haut_l, lst->lux);
+		else
+			put_text(lst, &t, lst->larg_a, lst->haut_a, lst->arbre);
+		t.x++;
+	}
+}
+
+void	put_text(t_tri *lst, t_prit *t,long int larg, long int haut, long *text)
+{
+	int use;
+	t->text_x = (t->wall_hit * (double)(larg));
+	if (t->side == 0 && t->rd_x > 0)
+		t->text_x = larg - t->text_x -1;
+	if (t->side == 1 && t->rd_y < 0)
+		t->text_x = larg - t->text_x -1;
+	t->y = t->draw_s;
+	if( t->y > 0)
+	{
+		lst->color = 0X31ACE5;
+		draw_line(t->x, 0, t->y, lst);
+	}
+	while(t->y < t->draw_e)
+	{
+		t->d = t->y * 256 - t->screen_y * 128 + t->line_h * 128;
+		t->text_y = (int)(((t->d * haut) / t->line_h) / 256);
+		lst->color = text[haut * t->text_y + t->text_x];
+		lst->x = t->x;
+		lst->y = t->y;
+		put_cub(lst);
+		t->y++;
+		use = t->draw_e;
+	}
+	if(t->x == 150)
+		printf("%d \n", use);
+	if(use < t->screen_y)
+	{
+		lst->color = 0X522A12;
+		draw_line(t->x, use, t->screen_y, lst);
 	}
 }

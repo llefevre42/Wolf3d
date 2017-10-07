@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 11:06:17 by llefevre          #+#    #+#             */
-/*   Updated: 2017/08/27 23:03:12 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/10/01 16:03:30 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,27 @@ char	*ft_malloncat(char *in, char *buf, size_t n)
 	ft_strdel(&in);
 	return (out);
 }
+
+/*int	*ft_mallonint(int *in, int *buf, size_t n)
+{
+	size_t	i;
+	ssize_t	j;
+	size_t	k;
+	int	*out;
+
+	j = -1;
+	k = 0;
+	if (!(in))
+		in = malloc(0);
+	i = ft_strlen(in);
+	if (!(out = malloc(sizeof(int) * (i + n + 1))))
+		return (0);
+	while (in[++j])
+		out[j] = in[j];
+	while (--n > 0)
+		out[j++] = buf[k++];
+	out[j] = '\0';
+	ft_strclr(in);
+	ft_strdel(&in);
+	return (out);
+}*/

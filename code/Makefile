@@ -6,7 +6,7 @@
 #    By: llefevre <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/07 20:31:18 by llefevre          #+#    #+#              #
-#    Updated: 2017/09/09 22:16:17 by llefevre         ###   ########.fr        #
+#    Updated: 2017/10/02 20:45:43 by llefevre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIB_FOLD = ./libft/
 
 LIB = libft/libft.a
 
-SRC = main put_cub cube put_keycode calcul_distance p_player action bzero_du_bled
+SRC = main put_cub cube put_keycode calcul_distance p_player action bzero_du_bled put_mousse crea_map htoi parse_text texture_loading
 
 C_FILE = $(addsuffix .c,$(addprefix $(C_FOLDER),$(SRC)))
 

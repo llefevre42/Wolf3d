@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 04:43:39 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/09 16:40:23 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/09/29 16:46:38 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		my_key_funct(int keycode, void *param)
 
 */	if (keycode == 123 || keycode == 124 || keycode == 126 ||keycode == 125)
 		p_player(keycode, lst);
-	//printf("%d %d %.1f\n", (int)(lst->start_x), (int)(lst->start_y), lst->tab[(int)(lst->start_x)][(int)(lst->start_y)]);
 	if (keycode == 88)
 	{
 		tmp1 = lst->dir_x;
@@ -73,7 +72,6 @@ int		my_key_funct(int keycode, void *param)
 	}
 	if (keycode == 76)
 	{
-		printf("la\n");
 		action(lst);
 	}
 /*	if (keycode == 85)
@@ -134,5 +132,6 @@ int		my_key_funct(int keycode, void *param)
 */	put_in_black(lst);
 	hauteur_mur(lst);
 	mlx_put_image_to_window(lst->mlx, lst->win, lst->pt_img, 0, 0);
+//	mlx_put_image_to_window(lst->mlx, lst->win, lst->pt_yanma, 0, 0);
 	return (0);
 }
