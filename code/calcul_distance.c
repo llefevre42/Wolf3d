@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/28 02:56:04 by llefevre          #+#    #+#             */
-/*   Updated: 2017/10/04 18:44:51 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/11/04 14:24:31 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	hauteur_mur(t_tri *lst)
 	t_prit t;
 	t.start_x = lst->start_x;
 	t.start_y = lst->start_y;
+	printf("%f %f\n", lst->start_x, lst->start_y);
 	t.dir_x = lst->dir_x;
 	t.dir_y = lst->dir_y;
 	t.plan_x = lst->angle_p;
@@ -79,13 +80,14 @@ void	hauteur_mur(t_tri *lst)
 				t.map_y += t.step_y;
 				t.side = 1;
 			}
-			if (lst->tab[t.map_x][t.map_y] > 0)
+			if (lst->tab[t.map_x][t.map_y] > 0 && lst->tab[t.map_x][t.map_y] != 0.7)
 				t.hit = 1;
 		}
 		if (t.side == 0)
 			t.wall_distance = (t.map_x - t.ray_x + (1 - t.step_x) / 2) /t.rd_x;
 		else
 			t.wall_distance = (t.map_y - t.ray_y + (1 - t.step_y) / 2) /t.rd_y;
+	t.wall_distance = t.wall_distance;
 		t.line_h = (int)(t.screen_y / t.wall_distance);
 		t.draw_s = ((-t.line_h) / 2) + (t.screen_y / 2);
 		if (t.draw_s < 0)
@@ -98,12 +100,9 @@ void	hauteur_mur(t_tri *lst)
 		else
 			t.wall_hit = t.ray_x + t.wall_distance * t.rd_x;
 		t.wall_hit -= floor((t.wall_hit));						//?
-		if(lst->tab[t.map_x][t.map_y] < 0.3 && lst->tab[t.map_x][t.map_y] > 0)
-			put_text(lst, &t, /*64, 64, (long *)lst->tp);*/lst->larg_g, lst->haut_g, lst->golgari);
-		else if(lst->tab[t.map_x][t.map_y] < 1 && lst->tab[t.map_x][t.map_y] > 0.2)
-			put_text(lst, &t, lst->larg_l, lst->haut_l, lst->lux);
-		else
-			put_text(lst, &t, lst->larg_a, lst->haut_a, lst->arbre);
+//	if(t.x == 150)
+//		printf("%f %d %f\n", t.wall_hit, t.side, t.screen_y);
+		what_a_wall(&t, lst); 
 		t.x++;
 	}
 }
@@ -111,6 +110,7 @@ void	hauteur_mur(t_tri *lst)
 void	put_text(t_tri *lst, t_prit *t,long int larg, long int haut, long *text)
 {
 	int use;
+
 	t->text_x = (t->wall_hit * (double)(larg));
 	if (t->side == 0 && t->rd_x > 0)
 		t->text_x = larg - t->text_x -1;
@@ -132,9 +132,12 @@ void	put_text(t_tri *lst, t_prit *t,long int larg, long int haut, long *text)
 		put_cub(lst);
 		t->y++;
 		use = t->draw_e;
+		t->sy = t->y;
+//	if(t->x == 150)
+//		printf("%d %d %d\n", use, t->draw_e, t->y);
 	}
-	if(t->x == 150)
-		printf("%d \n", use);
+//	if(t->x == 150)
+//		printf("%d %d %d\n", use, t->draw_e, t->y);
 	if(use < t->screen_y)
 	{
 		lst->color = 0X522A12;

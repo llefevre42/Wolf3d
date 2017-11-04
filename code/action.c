@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 14:03:41 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/29 14:05:24 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/10/31 21:19:14 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,13 @@ void	action(t_tri *lst)
 			j = 0;
 			i++;
 		}
+	}
+	else if(lst->tab[(int)(lst->start_x)][(int)(lst->start_y)] == 0.8)
+	{
+		ft_putstr("time : ");
+		ft_putnbr(time(NULL) - lst->time);
+		ft_putchar('\n');
+		ft_error(5);
 	}
 /*	if(lst->tab[(int)(lst->start_x)][(int)(lst->start_y)] == 0.1)
 	{

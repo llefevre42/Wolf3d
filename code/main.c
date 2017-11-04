@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/25 06:24:08 by llefevre          #+#    #+#             */
-/*   Updated: 2017/10/07 17:56:07 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/11/04 16:26:33 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,49 +25,6 @@ void	generation(t_tri *lst, char **av)
 			int *)mlx_get_data_addr(lst->pt_img, &trash1, &trash2, &trash3);
 }
 
-void	gene_text(t_tri *lst)
-{
-	int trash1;
-	int trash2;
-	int trash3;
-	int trash4;
-	int trash5;
-	int i;
-	
-	i = 0;
-	int fd;
-	int re;
-	unsigned char *tabs;
-	int l = 0;
-	long int *c;
-	long int *w;
-	char s[4];
-	char r[4];
-//	c = (long int *)s;
-//	w = (long int *)r;
-	long int  swap1[100000];
-
-	tabs = (unsigned char *)ft_read("../texture/arbre.bmp", lst);
-
-//	s[3] = (unsigned char)tabs[19];
-//	s[2] = (unsigned char)tabs[20];
-//	s[1] = (unsigned char)tabs[21];
-//	s[0] = (unsigned char)tabs[22];
-//	r[3] = (unsigned char)tabs[15];
-//	r[2] = (unsigned char)tabs[16];
-//	r[1] = (unsigned char)tabs[17];
-//	r[0] = (unsigned char)tabs[18];
-//	lst->haut_a = *c;
-//	lst->larg_a = *w;
-	lst->haut_a = (unsigned char)tabs[22];
-	lst->larg_a = (unsigned char)tabs[18];
-	printf("%ld %ld\n", lst->haut_a, lst->larg_a);
-	printf("%d \n", lst->re);
-	lst->arbre = tri_bmp(lst, (unsigned char *)tabs, lst->re, swap1);
-	text_golgari(lst);
-	text_lux(lst);
-}
-
 char	*ft_read(char *av, t_tri *lst)
 {
 	int		fd;
@@ -77,18 +34,15 @@ char	*ft_read(char *av, t_tri *lst)
 
 	if ((strcmp(av, "Makefile") == 0) || (strcmp(av, "random") == 0))
 		ft_error(0);
-	printf("kh\n");
 	fd = open(av, O_RDONLY);
 	out = NULL;
 	if (fd == -1)
 		return (NULL);
 	while ((re = read(fd, &buf, BUFSIZE)) > 0)
 	{
-	printf("kh\n");
 		lst->re = re;
 		out  = ft_malloncat(out, buf, re);
 	}
-		printf(" re = %d \n",lst->re);
 	return (out);
 }
 
@@ -97,6 +51,11 @@ void	ft_error(int i)
 	if (i == 0)
 	{
 		ft_putstr("error\n");
+		exit(1);
+	}
+	if (i == 5)
+	{
+		ft_putstr("-----------------------------\n|       GOOD GAME           |\n|         NEXT LEVEL?       |\n-----------------------------\n");
 		exit(1);
 	}
 }
@@ -170,6 +129,12 @@ void	number(char *str, t_tri *lst)
 			lst->i++;
 		}
 		lst->egal = lst->egal + (lst->egal2 / 10);
+		if(lst->egal2 == 7)
+		{
+		printf("%Lf|",lst->egal);
+			lst->start_x = lst->k + 0.5;
+			lst->start_y = lst->j + 0.5;
+		}
 	}
 	lst->tab[lst->k][lst->j] = lst->egal;
 	lst->j++;
@@ -185,8 +150,6 @@ int		main(int ac, char **av)
 
 	j = 0;
 	i = 0;
-	lst.start_x = 2.5;
-	lst.start_y = 2.5;
 	lst.spe = 0;
 	lst.p_v = 0;
 	lst.blk = 0;
@@ -204,9 +167,13 @@ int		main(int ac, char **av)
 	lst.i = 0;
 	lst.j = 0;
 	lst.k = 0;
-	if(ft_strcmp(av[1], "crea") == 0)
-		crea_map(&lst);
-	else
+	lst.str = 0;
+	lst.time = time(NULL);
+	srand(time(NULL));
+	lst.random = (rand() % 3);
+	if(ft_strcmp(av[1], "crea") == 0 && ac == 3)
+		crea_map(&lst, av[2]);
+	else if (ac == 2)
 	{
 		fd = open(av[1], O_RDONLY);
 		get_next_line(fd, &line);
@@ -214,5 +181,7 @@ int		main(int ac, char **av)
 		printf("%s\n", lst.map);
 		print_mini_map(&lst, av);
 	}
+	else
+		ft_error(0);
 	return(0);
 }

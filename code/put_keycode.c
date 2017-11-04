@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 04:43:39 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/29 16:46:38 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/11/04 17:36:08 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		my_key_funct(int keycode, void *param)
 //	long int i;
 	double tmp1;
 	double tmp2;
+	char *lol;
 
 	lst = ((t_tri *)param);
 	printf("keycode : %d\n", keycode);
@@ -44,9 +45,9 @@ int		my_key_funct(int keycode, void *param)
 	
 	if (keycode == 40)
 
-*/	if (keycode == 123 || keycode == 124 || keycode == 126 ||keycode == 125)
+*/	else if (keycode == 123 || keycode == 124 || keycode == 126 ||keycode == 125)
 		p_player(keycode, lst);
-	if (keycode == 88)
+	else if (keycode == 88)
 	{
 		tmp1 = lst->dir_x;
 		tmp2 = lst->angle_p;
@@ -58,7 +59,7 @@ int		my_key_funct(int keycode, void *param)
 		if(lst->ray == 24)
 			lst->ray = 0;
 	}
-	if (keycode == 86)
+	else if (keycode == 86)
 	{
 		tmp1 = lst->dir_x;
 		tmp2 = lst->angle_p;
@@ -70,9 +71,18 @@ int		my_key_funct(int keycode, void *param)
 		if(lst->ray == -1)
 			lst->ray = 23;
 	}
-	if (keycode == 76)
+	else if (keycode == 76)
 	{
 		action(lst);
+		if(lst->str == 0)
+			lst->str = 1;
+		else
+			lst->str = 0;
+	}
+	else 
+	{
+		if(lst->str == 1)
+			lol = make_str(what_a_char(keycode));
 	}
 /*	if (keycode == 85)
 	if (keycode == 83)
@@ -132,6 +142,20 @@ int		my_key_funct(int keycode, void *param)
 */	put_in_black(lst);
 	hauteur_mur(lst);
 	mlx_put_image_to_window(lst->mlx, lst->win, lst->pt_img, 0, 0);
+	if(lst->str == 1 && lol[0] != 'U')
+		mlx_string_put(lst->mlx, lst->win, 450, 450, 0X00FF00, lol);
 //	mlx_put_image_to_window(lst->mlx, lst->win, lst->pt_yanma, 0, 0);
 	return (0);
+}
+
+int		my_key_crea(int keycode, void *param)
+{
+	t_tri *lst;
+	lst = ((t_tri *)param);
+	if (keycode == 53)
+	{
+		create_file(lst);
+		exit(0);
+	}
+	return(0);
 }

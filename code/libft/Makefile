@@ -6,7 +6,7 @@
 #    By: thvocans <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/23 19:03:58 by thvocans          #+#    #+#              #
-#    Updated: 2017/09/07 22:23:14 by llefevre         ###   ########.fr        #
+#    Updated: 2017/10/08 03:42:40 by llefevre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC = ft_memset ft_memcpy ft_memccpy ft_memmove ft_memchr ft_memcmp ft_bzero\
 	  ft_memalloc ft_memdel\
 	  ft_lstnew ft_lstdelone ft_lstdel ft_lstadd ft_lstiter ft_lstmap\
 	  ft_malloncat ft_foreach ft_iseven ft_rot42 ft_sqrt ft_swap ft_strrev\
-	  ft_strcapitalize get_next_end get_next_line
+	  ft_strcapitalize get_next_line
 
 C_FILE = $(addsuffix .c,$(addprefix $(C_FOLDER),$(SRC)))
 

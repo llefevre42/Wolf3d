@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 15:26:05 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/25 18:09:57 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/10/08 03:55:35 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <string.h>
 # include <stdlib.h>
 
-# define BUFF_SIZE 204800
+# define BUFF_SIZE 200000
 
 struct	s_list
 {

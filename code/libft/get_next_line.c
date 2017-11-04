@@ -5,105 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/06 22:03:46 by llefevre          #+#    #+#             */
-/*   Updated: 2017/10/06 23:57:26 by llefevre         ###   ########.fr       */
+/*   Created: 2017/06/27 08:58:02 by llefevre          #+#    #+#             */
+/*   Updated: 2017/10/08 03:58:23 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-static t_gnl	*ft_create(int fd)
+
+int			my_read(t_fd_lst *lst)
 {
-	t_gnl	*out;
+	char		*tmp;
+	ssize_t		ret;
+	char		buff[BUFF_SIZE + 1];
 
-	if ((out = (t_gnl*)malloc(sizeof(t_gnl))))
+	while ((ret = read(lst->fd, buff, BUFF_SIZE)) > 0)
 	{
-		out->itm = 0;
-		out->fd = fd;
-		out->read = -2;
-		out->next = NULL;
-		if ((out->str = malloc(1)))
-			out->str[0] = 0;
-	}
-	return (out);
-}
-
-static int		ft_read(int fd, t_gnl *pt)
-{
-	int		i;
-	ssize_t	bsiz;
-	char	buf[BUFF_SIZE];
-	int		brk;
-
-	while ((bsiz = read(fd, &buf, BUFF_SIZE)) > 0)
-	{
-		i = 0;
-		brk = 0;
-		pt->str = ft_malloncat(pt->str, buf, (size_t)bsiz);
-		while (pt->str[pt->itm + i] && brk == 0)
+		buff[ret] = '\0';
+		tmp = lst->content;
+		if (lst->content)
 		{
-			if (pt->str[pt->itm + i++] == '\n')
-				brk = 1;
+			if (!(lst->content = ft_strjoin(lst->content, buff)))
+				return (-1);
+			free(tmp);
 		}
-		if (brk == 1)
-			break ;
-	}
-	pt->read = bsiz;
-	return (bsiz);
-}
-
-static int		ft_store(t_gnl *pt, char **line)
-{
-	size_t			i;
-
-	i = 0;
-	while (!(pt->str[pt->itm + i] == '\n' || pt->str[pt->itm + i] == '\0'))
-		i++;
-	if (!(*line = ft_strsub(pt->str, pt->itm, i)))
-		return (-1);
-	if (i == 0 && pt->str[pt->itm] == '\0')
-		return (0);
-	pt->itm += (pt->str[pt->itm + i] != '\0') ? i + 1 : i;
-	return (1);
-}
-
-static int		ft_free(int fd, t_gnl *pt, char **line)
-{
-	if (fd == -42 && line != NULL)
-		*line = pt->str;
-	if (line == NULL && fd > 0)
-	{
-		while (pt != NULL && pt->fd != fd)
-			pt = pt->next;
-		if (pt != NULL)
-			free(pt->str);
-	}
-	return (-1);
-}
-
-int				get_next_line(const int fd, char **line)
-{
-	static t_gnl	*var;
-	t_gnl			*pt;
-
-	pt = var;
-	if (line == NULL || fd < 0)
-		return (ft_free(fd, pt, line));
-	if (pt != NULL)
-	{
-		while (pt != NULL && pt->fd != fd)
-			pt = pt->next;
-		if (!pt && (pt = var) == var)
+		else
 		{
-			while (pt->next)
-				pt = pt->next;
-			pt->next = ft_create(fd);
-			pt = pt->next;
+			lst->content = ft_strnew(ft_strlen(buff));
+			ft_strcpy(lst->content, buff);
 		}
+		if (ft_strchr(lst->content, '\0'))
+			return (1);
 	}
-	else if ((var = ft_create(fd)))
-		pt = var;
-	if (!pt || ft_read(fd, pt) < 0)
+	return (ret);
+}
+
+int			punchline(t_fd_lst *lst, char **line)
+{
+	char	*tmp;
+	char	*cut;
+	int		size;
+
+	if ((cut = ft_strchr(lst->content, '\0')))
+	{
+		tmp = lst->content;
+		size = cut - lst->content;
+		if (!(*line = ft_strnew(sizeof(char) * size)))
+			return (-1);
+		ft_memcpy((void*)*line, (void*)lst->content, size);
+		if (!(lst->content = ft_strsub(lst->content, size + 1, ft_strlen(cut))))
+			return (-1);
+		free(tmp);
+		return (1);
+	}
+	else if (*(lst->content) != 0)
+	{
+		if (!(*line = ft_strnew(sizeof(char) * ft_strlen(lst->content))))
+			return (-1);
+		ft_memcpy((void*)*line, (void*)lst->content, ft_strlen(lst->content));
+		ft_memdel((void**)&lst->content);
+		return (1);
+	}
+	return (0);
+}
+
+t_fd_lst	*check_fd(t_fd_lst **lst, int fd)
+{
+	t_fd_lst	*tmp;
+
+	if (fd < 0)
+		return (NULL);
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->fd == fd)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	if (!(tmp = (t_fd_lst*)ft_memalloc(sizeof(t_fd_lst))))
+		return (NULL);
+	tmp->fd = fd;
+	if (lst)
+		tmp->next = *lst;
+	*lst = tmp;
+	return (tmp);
+}
+
+int			get_next_line(int fd, char **line)
+{
+	int					ret;
+	static t_fd_lst		*lst = NULL;
+	t_fd_lst			*tmp;
+
+	ret = 1;
+	if (!line)
 		return (-1);
-	return (ft_store(pt, line));
+	if (!(tmp = check_fd(&lst, fd)))
+		return (-1);
+	if ((ret = my_read(tmp)) < 1 && !tmp->content)
+		return (ret);
+	ret = punchline(tmp, line);
+	if (ret == 0)
+		ft_memdel((void**)&tmp->content);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: llefevre <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/27 03:53:48 by llefevre          #+#    #+#             */
-/*   Updated: 2017/09/28 19:00:35 by llefevre         ###   ########.fr       */
+/*   Updated: 2017/10/31 23:11:41 by llefevre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ int		put_cub(t_tri *lst)
 	return (0);
 }
 
+int		put_cub_bis(int x, int y, t_tri *lst)
+{
+	int x1;
+	int y1;
+
+	y1 = y;
+	x1 = x;
+	while (y < y1 + lst->h)
+	{
+		x = x1;
+		while (x < x1 + lst->l)
+		{
+			mlx_pixel_put(lst->mlx, lst->win, x, y, lst->color);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
 void	draw_line(int x, int start, int end, t_tri *lst)
 {
 	while(start < end)
@@ -44,7 +64,7 @@ void	draw_line(int x, int start, int end, t_tri *lst)
 		start++;
 	}
 }
-	
+
 void	put_in_black(t_tri *lst)
 {
 	long int	i;
